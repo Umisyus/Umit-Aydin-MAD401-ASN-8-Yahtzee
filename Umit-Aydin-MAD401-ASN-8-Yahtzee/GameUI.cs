@@ -1,15 +1,33 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 {
-    public class GameUI
+    public class GameUi
     {
-        const string selectACategoryPickTheDice = "Select a category, pick the dice to re-roll or \"show\" for score-card \n"
-                                                  + "(category / #,#,# / show): ";
+        const string SelectACategoryPickTheDice =
+            "Select a category, pick the dice to re-roll or \"show\" for score-card \n"
+            + "(category / #,#,# / show): ";
 
-        private List<Die> Dice = new List<Die>();
-        private List<string> categories = new List<string>();
+        public static List<Die> Dice = new List<Die>(6);
+
+        private void setupGame()
+        {
+            // Dice
+            for (int i = 0; i < Dice.Count; i++)
+            {
+                Dice[i] = new Die($"D{i}", i);
+            }
+
+            GameRules.setupRules();
+            // Categories
+            categories = GameRules.gameRules.Keys.ToList();
+        }
+
+        private static List<string> categories = new List<string>();
+        private static List<int> points = new List<int>();
 
 
         public void Start()
@@ -17,30 +35,38 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             // roll a die
             // roll again or show board
             Console.WriteLine("Rolling Dice...");
-            var ans = AskPlayer(selectACategoryPickTheDice);
-            // ShowBoard();
-        }
-
-        private string AskPlayer(string prompt)
-        {
-            Console.WriteLine(prompt);
-
+            ShowBoard();
+            var ans = GameInput.AskPlayer(SelectACategoryPickTheDice);
         }
 
         public static void ShowBoard()
         {
             Console.WriteLine("You rolled the following:");
-            Dice.ForEach(Console.WriteLine);
+            var diceStr = string.Join(",", Dice);
+            var cats = string.Join("\n", categories);
 
+            // Show categories and dice values
+            var catsPoints = cats + string.Join("\n", points);
+            Console.WriteLine($@"
+categories:        Dice:                  Points:
+{cats}        {diceStr}              {catsPoints}
+");
+        }
+
+        public static IList getDice()
+        {
+            return Dice.ToList();
         }
     }
 
-    internal class Die
+    public class Die
     {
+        public string Face { get; }
         public int Num;
 
-        public Die(int num)
+        public Die(string face, int num)
         {
+            Face = face;
             Num = num;
         }
 

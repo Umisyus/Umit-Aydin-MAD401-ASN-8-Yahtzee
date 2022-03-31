@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Home\\.nuget\\packages\\": {}
+    "C:\\Users\\Laptop\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Home\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee.csproj",
+      "projectUniqueName": "C:\\Users\\Laptop\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee.csproj",
       "projectName": "Umit-Aydin-MAD401-ASN-8-Yahtzee",
-      "projectPath": "C:\\Users\\Home\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee.csproj",
-      "packagesPath": "C:\\Users\\Home\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Home\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\obj\\",
+      "projectPath": "C:\\Users\\Laptop\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee.csproj",
+      "packagesPath": "C:\\Users\\Laptop\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Laptop\\RiderProjects\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\Umit-Aydin-MAD401-ASN-8-Yahtzee\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Home\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Laptop\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
