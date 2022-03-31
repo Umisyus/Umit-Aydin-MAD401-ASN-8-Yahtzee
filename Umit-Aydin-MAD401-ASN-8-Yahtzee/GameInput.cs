@@ -1,0 +1,47 @@
+﻿using System;
+using System.Text.RegularExpressions;
+
+namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
+{
+    public static class GameInput
+    {
+        public static string GetCategoryInput(string category)
+        {
+            // Stub
+            return Console.ReadLine();
+        }
+
+        public static string GetInput()
+        {
+            // var matcher = new Regex(pattern: @"\d,?");
+            var matcher = new Regex(pattern: @"\d+,\ ?\d+,\d+");
+
+            // Stub
+            while (true) {
+                try {
+
+                    var test = Console.ReadLine();
+                    if (test != null) {
+
+                        if (test?.Length > 0) {
+
+                            if (matcher.IsMatch(test)) { return test; }
+
+                            if (test == "show") { GameUI.ShowBoard(); }
+                            else { return GetCategoryInput(test); }
+
+                        }
+                    }
+
+                    Console.WriteLine("Please enter the number of the die or dice which you would like to re-roll in a comma separated list (ex.: 1,2,5):");
+
+                } catch (Exception e) {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+
+            }
+        }
+    }
+}
