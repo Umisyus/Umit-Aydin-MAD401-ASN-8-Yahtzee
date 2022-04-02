@@ -38,12 +38,14 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                     // Re-roll dice for an entire category
                     if (GameLogic.Categories.Contains(ans)) {
                         gui.ShowBoard(gameLogic.CategoryPoints, _currentRound);
-                        SelectCategory();
 
                         if (CategoryDoesNotExistInCategoryPoints(ans, gameLogic)
                             && CategoryNotAlreadyScored(ans)) {
                             // if category valid, re-roll the dice by category
-                            gameLogic.RollDiceByCategory(ans);
+                            // save that result into the rounds card
+                            if (ans == null) return;
+
+                            scoredCategories[ans] = gameLogic.RollDiceByCategory(ans);
                         }
                         else {
                             InvalidEntry();
@@ -55,32 +57,34 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                     var ints = GameInput.ParseListOfNumbersFromInputString(ans);
 
                     // Fails if dice rolled 3 times
-                    if (_rolledTimes < maxRolledTimes) {
+                    if (_rolledTimes >= maxRolledTimes) {
+                        Console.WriteLine("You cannot re-roll anymore dice!");
+                    }
+                    else {
+                        // Roll the dice
                         if (ints.Count != 0 && ints.Count <= GameLogic.Dice.Count) {
                             gameLogic.ReRollManyDie(ints);
                             _rolledTimes++;
                             break;
                         }
 
-                        Console.WriteLine("You cannot re-roll anymore dice!");
-
-                        // Ask player to select a category
-
-                        if (ans != null && gameLogic.CategoryPoints.ContainsKey(ans)) {
-
-                            // Score a category
-                            // Entered a category name
-                            // Score points for a category
-                            if (GameLogic.Categories.Contains(ans)
-                                && CategoryDoesNotExistInCategoryPoints(ans, gameLogic)
-                                && CategoryNotAlreadyScored(ans)) {
-                                // if category is valid, score that category and mark it scored
-                                ScoreCategory(ans, gameLogic);
-                            }
-                            else InvalidEntry();
-                        }
                     }
-                    // gui.ShowBoard(gameLogic.CategoryPoints, _currentRound);
+                    // Ask player to select a category
+
+                    if (ans != null && gameLogic.CategoryPoints.ContainsKey(ans)) {
+
+                        // Score a category
+                        // Entered a category name
+                        // Score points for a category
+                        if (GameLogic.Categories.Contains(ans)
+                            && CategoryDoesNotExistInCategoryPoints(ans, gameLogic)
+                            && CategoryNotAlreadyScored(ans)) {
+                            // if category is valid, score that category and mark it scored
+                            ScoreCategory(ans, gameLogic);
+                        }
+                        else InvalidEntry();
+                    }
+
                 }
 
                 gui.PrintScoreCard(_currentRound);
@@ -121,13 +125,6 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                     .Find(s => ans == s.Key);
                 scoredCategories.Add(foundCategory.Key, foundCategory.Value);
             }
-        }
-
-        private static void SelectCategory()
-        {
-            Console.WriteLine("Please enter a category to score:");
-
-
         }
     }
 }

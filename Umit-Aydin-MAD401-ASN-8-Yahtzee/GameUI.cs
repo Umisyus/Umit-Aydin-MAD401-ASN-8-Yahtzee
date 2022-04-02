@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Umit_Aydin_MAD401_ASN_8_Yahtzee.GameLogic;
 
 namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 {

@@ -1,7 +1,6 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 {
@@ -49,13 +48,18 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             if (die == null) return;
             try {
 
-                Dice.Find(die1 => die1.DieFace.Equals(die.DieFace)).Num = RandomNG.Next(1, Dice.Capacity + 1);
+                Dice.Find(die1 => isEqual(die, die1)).Num = RandomNG.Next(1, Dice.Capacity + 1);
 
                 Console.WriteLine($"Rolled die {die.DieFace}");
 
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
             }
+        }
+
+        private static bool isEqual(Die die, Die die1)
+        {
+            return die1.DieFace.Equals(die.DieFace);
         }
 
         public void RollADie(int dieFaceNumber)
@@ -73,18 +77,23 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             }
         }
 
-        public void RollDiceByCategory(string? category)
+        public int RollDiceByCategory(string? category)
         {
-            if (category == null) return;
+            if (category == null) return -1;
 
             try {
                 // GameCategoryRules.ToList().Find(pair => pair.Key.Equals(category))
                 //     .Value.Invoke(Dice);
-                GameCategoryRules[category].Invoke(Dice);
+                var resultPoints = GameCategoryRules[category].Invoke(Dice);
+
+                // Save result into game card
+                return resultPoints;
 
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
             }
+
+            return -1;
         }
 
 
