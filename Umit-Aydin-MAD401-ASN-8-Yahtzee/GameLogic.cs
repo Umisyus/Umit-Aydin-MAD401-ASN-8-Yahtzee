@@ -10,9 +10,14 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
         public static List<Die> Dice = new List<Die>(6);
         private static readonly Dictionary<string, Func<IList<Die>, int>> GameCategoryRules = GameRules.GameCategoryRules;
 
+
         public static List<string> Categories;
         public List<int> Points;
         public Dictionary<string, int> CategoryPoints = new();
+        
+        // Dice.Capacity + 1 because random max value is exclusive
+        public static Random RandomNG = new Random();
+        public static int GetRandomInt = RandomNG.Next(1, Dice.Capacity + 1);
 
         public GameLogic()
         {
@@ -39,8 +44,6 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             }
         }
 
-        // Dice.Capacity + 1 because random max value is exclusive
-        public static int GetRandomInt = new Random().Next(1, Dice.Capacity + 1);
 
         public void RollADie(Die die)
         {
@@ -48,7 +51,10 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             try {
 
                 Dice.Find(die1 => die1.DieFace.Equals(die.DieFace)).Num = GetRandomInt;
-
+                if (die != null) {
+                    die.Num = GetRandomInt;
+                    Console.WriteLine($"Rolled die {die.DieFace}");
+                }
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
             }
@@ -83,19 +89,20 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             }
         }
 
-        public static void RollAllDice()
-        {
-            Dice.ForEach(die => die.Num = GetRandomInt);
-        }
 
         public void ReRollManyDie(List<int> ints)
         {
             if (ints.Count > 0) {
-                
+
                 // Re-roll dice
                 Console.WriteLine($"Rolling dice {string.Join(", ", ints)}");
                 ints.ForEach(RollADie);
             }
+        }
+
+        public void RollAllDice()
+        {
+            Dice.ForEach(RollADie);
         }
     }
 }

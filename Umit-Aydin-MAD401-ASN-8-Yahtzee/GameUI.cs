@@ -31,17 +31,31 @@ Category:        Points:
         {
             var catScore = pair.Select(valuePair => $"{valuePair.Key}\t\t\t{valuePair.Value}").ToList();
 
-            Console.WriteLine($@"
-----------------------
-|     Round {currentRound}     |
-----------------------
-Category:        Points:
-");
+            Console.WriteLine(RoundTextStringValue(currentRound));
 
             catScore.ForEach(str =>
                 Console.Write($@"{str}" + "\n"));
 
             Console.WriteLine("-------------------");
+        }
+
+        private static string RoundTextStringValue(int currentRound)
+        {
+            return $@"
+----------------------
+|     Round {currentRound}     |
+----------------------
+Category:        Points:
+";
+        }
+
+        public void PrintScoreCard(int round)
+        {
+            Console.WriteLine(RoundTextStringValue(round));
+            var values = GameRules.GetRules().Select(pair => new {Category = pair.Key, Point = pair.Value.Invoke(GameLogic.Dice)}).ToList();
+
+            values.ForEach(val => { Console.WriteLine($"{val.Category}\t\t\t{val.Point}"); });
+            
         }
     }
 }

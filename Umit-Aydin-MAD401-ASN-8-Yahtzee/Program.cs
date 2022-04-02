@@ -8,23 +8,21 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
     {
         private static int _currentRound = 0 + 1;
         private static int _numMaxRounds = 13 + 1;
-        private static HashSet<KeyValuePair<string, int>> scoredCategories = new();
+        private static Dictionary<string, int> scoredCategories = new();
         private static int _rolledTimes;
         private static int maxRolledTimes = 3;
 
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             Console.WriteLine("Hello and welcome to the Yahtzee game!");
-            // new GameUi().Start();
 
             var gui = new GameUi();
-            // gui.Start();
-
-
             var gameLogic = new GameLogic();
-            GameLogic.RollAllDice();
-            gui.ShowBoard(gameLogic.CategoryPoints, _currentRound);
+
+            gameLogic.RollAllDice();
+            
+            gui.PrintScoreCard(_currentRound);
 
             while (_currentRound < _numMaxRounds) {
                 while (true) {
@@ -32,7 +30,7 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                     var ans = Console.ReadLine();
 
                     if (ans == "show") {
-                        gui.ShowScoreCard(gameLogic.CategoryPoints);
+                        gui.ShowScoreCard(scoredCategories);
                         break;
                     }
 
@@ -55,29 +53,35 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                     // Entered integers (#,#,#)
                     // Re-roll the dice entered
                     var ints = GameInput.ParseListOfNumbersFromInputString(ans);
+
+                    // Fails if dice rolled 3 times
                     if (_rolledTimes < maxRolledTimes) {
                         if (ints.Count != 0 && ints.Count <= GameLogic.Dice.Count) {
                             gameLogic.ReRollManyDie(ints);
                             _rolledTimes++;
                             break;
                         }
+                        // Ask player to select a category
 
-                        Console.WriteLine("You cannot re-roll anymore dice!");
+                        if (ans != null && gameLogic.CategoryPoints.ContainsKey(ans)) {
+                            Console.WriteLine("You cannot re-roll anymore dice!");
 
-                        // Score a category
-                        // Entered a category name
-                        // Score points for a category
-                        if (GameLogic.Categories.Contains(ans)
-                            && CategoryDoesNotExistInCategoryPoints(ans, gameLogic)
-                            && CategoryNotAlreadyScored(ans)) {
-                            // if category is valid, score that category and mark it scored
-                            ScoreCategory(ans, gameLogic);
+                            // Score a category
+                            // Entered a category name
+                            // Score points for a category
+                            if (GameLogic.Categories.Contains(ans)
+                                && CategoryDoesNotExistInCategoryPoints(ans, gameLogic)
+                                && CategoryNotAlreadyScored(ans)) {
+                                // if category is valid, score that category and mark it scored
+                                ScoreCategory(ans, gameLogic);
+                            }
+                            else InvalidEntry();
                         }
-                        else InvalidEntry();
                     }
-
                     // gui.ShowBoard(gameLogic.CategoryPoints, _currentRound);
                 }
+
+                gui.PrintScoreCard(_currentRound);
 
                 _currentRound++;
             }
@@ -113,13 +117,7 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             if (ans != null) {
                 var foundCategory = gameLogic.CategoryPoints.ToList()
                     .Find(s => ans == s.Key);
-
-                scoredCategories.Add(
-                    // gameLogic.CategoryPoints.ToList().Find(pair => pair.Key == ans
-                    foundCategory
-                    // )
-                );
-
+                scoredCategories.Add(foundCategory.Key, foundCategory.Value);
             }
         }
 
