@@ -7,11 +7,11 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 {
     public class GameUi
     {
-        const string SelectACategoryPickTheDice =
+        public string SelectACategoryPickTheDice =
             "Select a category, pick the dice to re-roll or \"show\" for score-card \n"
             + "(category / #,#,# / show): ";
 
-        private static GameLogic gl = new();
+        private static GameLogic gl = new GameLogic();
 
         public void Start()
         {
@@ -20,32 +20,57 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             SetupGame();
             Console.WriteLine("Rolling Dice...");
             ShowBoard();
-            var ans = GameInput.AskPlayer(SelectACategoryPickTheDice);
+
         }
 
         private void SetupGame()
         {
             // Roll all dice
-            new GameRules().SetupRules();
+            GameRules.SetupRules();
 
             // Categories
-            gl.Categories = GameRules.GameCategoryRules.Keys.ToList();
+            GameLogic.Categories = GameRules.GameCategoryRules.Keys.ToList();
+        }
+
+        public void ShowScoreCard(Dictionary<string, int> pair)
+        {
+            var catScore = pair.Select(valuePair => $"{valuePair.Key}\t\t\t{valuePair.Value}").ToList();
+
+            Console.WriteLine(@"
+----------------------
+|     Score Card     |
+----------------------
+Category:        Points:
+");
+
+            catScore.ForEach(str =>
+                Console.Write($@"{str}" + "\n"));
+            Console.WriteLine("-------------------");
         }
 
         public void ShowBoard()
         {
             Console.WriteLine("You rolled the following:");
-            var diceStr = string.Join(", ", Dice);
+            var diceStr = string.Join(", ", GameLogic.Dice);
             Console.WriteLine(diceStr);
 
-            var cats = string.Join("\n", gl.Categories);
+        }
 
-            // Show categories and dice values
-            var points =  string.Join("\n", gl.Points);
-            Console.WriteLine($@"
-    categories:                  Points (Number of dice in hand):
-    {cats}                  {points}
+        public void ShowBoard(Dictionary<string, int> pair)
+        {
+            var catScore = pair.Select(valuePair => $"{valuePair.Key}\t\t\t{valuePair.Value}").ToList();
+
+            Console.WriteLine(@"
+----------------------
+|     Score Board     |
+----------------------
+Category:        Points:
 ");
+
+            catScore.ForEach(str =>
+                Console.Write($@"{str}" + "\n"));
+
+            Console.WriteLine("-------------------");
         }
     }
 }

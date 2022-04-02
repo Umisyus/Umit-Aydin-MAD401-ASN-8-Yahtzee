@@ -4,23 +4,19 @@ using System.Linq;
 
 namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 {
-    public class GameRules
+    public static class GameRules
     {
         public static Dictionary<string, Func<IList<Die>, int>> GameCategoryRules = new();
 
-        static Dictionary<string, Func<IList<Die>, int>> GetRules() => GameCategoryRules;
+        public static Dictionary<string, Func<IList<Die>, int>> GetRules() => GameCategoryRules;
 
-        public GameRules()
+        public static Func<IList<Die>, int> GetRuleByName(string categoryToSearch)
         {
-            SetupRules();
+            return GameCategoryRules.Where(s => s.Key == categoryToSearch)
+                .Select(valuePair => valuePair.Value).First();
         }
 
-        public KeyValuePair<string, Func<IList<Die>, int>> FindMatchingRule(List<Die> die)
-        {
-            return GameCategoryRules.Where(pair => pair.Value.Invoke(die) != -1).Select(pair => pair).FirstOrDefault();
-        }
-
-        public void SetupRules()
+        public static void SetupRules()
         {
             var isEqual = new Func<Die, int, bool>((Die i, int i2) => i.Num == i2);
 
