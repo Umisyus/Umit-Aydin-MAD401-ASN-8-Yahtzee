@@ -16,10 +16,12 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 
         public GameLogic()
         {
-               GameRules.SetupRules();
+            GameRules.SetupRules();
+
+            // Set num of points by num of categories
             Categories = new(GameCategoryRules.Keys);
             Points = new List<int>(new int[Categories.Count]);
-         
+
             Categories.ForEach(c => Points.Add(0));
 
             GenerateDice();
@@ -57,8 +59,10 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             try {
 
                 var die = Dice.Find(die1 => die1.DieFace.Equals("D" + dieFaceNumber));
-
-                if (die != null) die.Num = GetRandomInt;
+                if (die != null) {
+                    die.Num = GetRandomInt;
+                    Console.WriteLine($"Rolled die {die.DieFace}");
+                }
 
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
@@ -70,8 +74,10 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             if (category == null) return;
 
             try {
-                GameCategoryRules.ToList().Find(pair => pair.Key.Equals(category))
-                    .Value.Invoke(Dice);
+                // GameCategoryRules.ToList().Find(pair => pair.Key.Equals(category))
+                //     .Value.Invoke(Dice);
+                GameCategoryRules[category].Invoke(Dice);
+
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
             }
@@ -85,7 +91,9 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
         public void ReRollManyDie(List<int> ints)
         {
             if (ints.Count > 0) {
+                
                 // Re-roll dice
+                Console.WriteLine($"Rolling dice {string.Join(", ", ints)}");
                 ints.ForEach(RollADie);
             }
         }

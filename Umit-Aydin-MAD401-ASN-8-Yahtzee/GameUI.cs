@@ -11,27 +11,6 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             "Select a category, pick the dice to re-roll or \"show\" for score-card \n"
             + "(category / #,#,# / show): ";
 
-        private static GameLogic gl = new GameLogic();
-
-        public void Start()
-        {
-            // roll a die
-            // roll again or show board
-            SetupGame();
-            Console.WriteLine("Rolling Dice...");
-            ShowBoard();
-
-        }
-
-        private void SetupGame()
-        {
-            // Roll all dice
-            GameRules.SetupRules();
-
-            // Categories
-            GameLogic.Categories = GameRules.GameCategoryRules.Keys.ToList();
-        }
-
         public void ShowScoreCard(Dictionary<string, int> pair)
         {
             var catScore = pair.Select(valuePair => $"{valuePair.Key}\t\t\t{valuePair.Value}").ToList();
@@ -48,21 +27,13 @@ Category:        Points:
             Console.WriteLine("-------------------");
         }
 
-        public void ShowBoard()
-        {
-            Console.WriteLine("You rolled the following:");
-            var diceStr = string.Join(", ", GameLogic.Dice);
-            Console.WriteLine(diceStr);
-
-        }
-
-        public void ShowBoard(Dictionary<string, int> pair)
+        public void ShowBoard(Dictionary<string, int> pair, int currentRound)
         {
             var catScore = pair.Select(valuePair => $"{valuePair.Key}\t\t\t{valuePair.Value}").ToList();
 
-            Console.WriteLine(@"
+            Console.WriteLine($@"
 ----------------------
-|     Score Board     |
+|     Round {currentRound}     |
 ----------------------
 Category:        Points:
 ");
