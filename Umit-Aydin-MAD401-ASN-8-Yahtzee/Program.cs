@@ -8,7 +8,7 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
     {
         private static int _currentRound = 0 + 1;
         private static int _numMaxRounds = 13 + 1;
-        private static Dictionary<string, int> scoredCategories = new();
+        private static Dictionary<string, int> scoredCategories = new Dictionary<string, int>();
         private static int _rolledTimes;
         private static int maxRolledTimes = 3;
 
@@ -21,7 +21,7 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             var gameLogic = new GameLogic();
 
             gameLogic.RollAllDice();
-            
+
             gui.PrintScoreCard(_currentRound);
 
             while (_currentRound < _numMaxRounds) {
@@ -61,10 +61,12 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
                             _rolledTimes++;
                             break;
                         }
+
+                        Console.WriteLine("You cannot re-roll anymore dice!");
+
                         // Ask player to select a category
 
                         if (ans != null && gameLogic.CategoryPoints.ContainsKey(ans)) {
-                            Console.WriteLine("You cannot re-roll anymore dice!");
 
                             // Score a category
                             // Entered a category name

@@ -14,10 +14,9 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
         public static List<string> Categories;
         public List<int> Points;
         public Dictionary<string, int> CategoryPoints = new();
-        
+
         // Dice.Capacity + 1 because random max value is exclusive
         public static Random RandomNG = new Random();
-        public static int GetRandomInt = RandomNG.Next(1, Dice.Capacity + 1);
 
         public GameLogic()
         {
@@ -50,11 +49,10 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
             if (die == null) return;
             try {
 
-                Dice.Find(die1 => die1.DieFace.Equals(die.DieFace)).Num = GetRandomInt;
-                if (die != null) {
-                    die.Num = GetRandomInt;
-                    Console.WriteLine($"Rolled die {die.DieFace}");
-                }
+                Dice.Find(die1 => die1.DieFace.Equals(die.DieFace)).Num = RandomNG.Next(1, Dice.Capacity + 1);
+
+                Console.WriteLine($"Rolled die {die.DieFace}");
+
             } catch (Exception) {
                 Console.WriteLine("Invalid die number!");
             }
@@ -66,7 +64,7 @@ namespace Umit_Aydin_MAD401_ASN_8_Yahtzee
 
                 var die = Dice.Find(die1 => die1.DieFace.Equals("D" + dieFaceNumber));
                 if (die != null) {
-                    die.Num = GetRandomInt;
+                    die.Num = RandomNG.Next(1, Dice.Capacity + 1);
                     Console.WriteLine($"Rolled die {die.DieFace}");
                 }
 
